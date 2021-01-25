@@ -1,0 +1,26 @@
+metadata:
+  auth:
+    basic:
+      user: "mock_user"
+      password: "mock_pass"
+  url: "mock.site.localhost"
+requests:
+  test_get:
+    - url: "/dummy/get"
+      method: "get"
+      json:
+        name: "test_4"
+      metadata:
+        priority: 5
+  test_post:
+    - url: "/dummy/post"
+      method: "post"
+      json:
+        name: "test_4"
+      metadata:
+        priority: 1
+  test_put:
+    - url: "/dummy/post"
+      method: "post"
+      json:
+        name: "test_4"

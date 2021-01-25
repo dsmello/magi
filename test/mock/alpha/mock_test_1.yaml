@@ -1,0 +1,9 @@
+metadata: #basic_info
+  auth:
+    basic:
+      user: "mock_user"
+      password: "mock_pass"
+  url: "mock.site.localhost"
+requests:
+  test_default: #By default the "magi" will do a get
+    - url: "/dummy"

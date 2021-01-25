@@ -1,0 +1,13 @@
+{
+    "python.pythonPath": "/home/dsmello-linux/projects/personal/magi/venv/bin/python3",
+    "python.testing.pytestArgs": [
+        "test"
+    ],
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestPath":"venv/bin/pytest",
+    "python.linting.pylintPath": "venv/bin/pylint",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false
+}
