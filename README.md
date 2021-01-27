@@ -1,1 +1,2 @@
-  
+export MAGI_YAML_AUTH_BASIC_USER=admin
+export MAGI_YAML_AUTH_BASIC_PASS=admin

@@ -1,0 +1,10 @@
+metadata: #basic_info
+  auth:
+    basic:
+      user: "admin"
+      password: "admin"
+  url: "http://127.0.0.1:8081"
+requests:
+  test_default: #By default the "magi" will do a get
+    - url: "/service/rest/v1/repositories/docker/hosted"
+    - url: "/service/rest/v1/repositories"

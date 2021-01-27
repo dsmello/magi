@@ -1,9 +1,13 @@
 import logging
+from magi.sys_env import replace_by_sys_variables 
 
 
 
-def __get_basic_info__(raw_input:dict) -> dict: 
-    return raw_input.get("metadata")
+def __get_basic_info__(raw_input:dict, sys_env_replacer:bool=True) -> dict: 
+    metadata : dict = raw_input.get("metadata")
+    if sys_env_replacer:
+        replace_by_sys_variables(metadata)
+    return metadata
 
 
 def __metadata_auth__(raw_metadata_auth_input:dict) -> dict:
@@ -51,12 +55,13 @@ def __url__(url_base: str, url_endpoint: str) -> str:
     return f"{base}/{endpoint}"
 
 def __inject_basic_info__(metadata_input:dict, raw_request_input:dict) -> dict:
-    metadata: dict = metadata_input.copy()
+    
 
     result : dict = {}
     for node_name in raw_request_input:
         request_list : list = []
         for request_item in raw_request_input[node_name]:
+            metadata: dict = metadata_input.copy()
             request_item_copy: dict = request_item.copy()
             request : dict = {}
             if metadata.get("url") and request_item_copy.get("url"):
@@ -76,4 +81,16 @@ def __inject_basic_info__(metadata_input:dict, raw_request_input:dict) -> dict:
             
 
 # TODO: Implements the method sort
-def __sort_requests__(raw_input:dict) -> dict : ...
+def __sort_requests__(raw_input:dict) -> list : 
+    result : list = []
+    for node in raw_input:
+        for request in raw_input[node]:
+            result.append(request)
+    return result
+
+
+def nodesolver(input_data: dict) -> list:
+    metadata: dict = __metadata__(input_data)
+    request_dict :dict = __inject_basic_info__(metadata_input=metadata, raw_request_input=__get_requests__(input_data))
+
+    return __sort_requests__(request_dict)

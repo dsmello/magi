@@ -16,11 +16,11 @@ class Test_nodesolver(unittest.TestCase):
             'auth':
             {'basic': 
                 {'password': 'mock_pass', 'user': 'mock_user'}},
-            'url':'mock.site.localhost'}
+            'url':'http://mock.site.localhost'}
 
         self.assertIsInstance(YAML, dict, "The Yaml must be a 'dict' instance")
-        self.assertIsInstance(__get_basic_info__(YAML), dict, "The method must return 'dict' instance")
-        self.assertEqual(__get_basic_info__(YAML), result, "The method must return the espect content.")
+        self.assertIsInstance(__get_basic_info__(raw_input=YAML.copy(), sys_env_replacer=False), dict, "The method must return 'dict' instance")
+        self.assertEqual(__get_basic_info__(raw_input=YAML.copy(), sys_env_replacer=False), result, "The method must return the espect content.")
 
 
     def test__metadata_auth__(self):
@@ -38,7 +38,7 @@ class Test_nodesolver(unittest.TestCase):
         YAML: dict = CASE1.get("mock_test_1")
 
         result: dict = {
-            "test_default": [ {"url": "/dummy"} ]
+            "test_default": [ {"url": "/dummy"},{"url": "/dummy_2"}]
         }
 
         self.assertIsInstance(YAML, dict, "The Yaml must be a 'dict' instance")
@@ -50,7 +50,7 @@ class Test_nodesolver(unittest.TestCase):
         YAML: dict = CASE1.get("mock_test_1")
 
         result: dict = {
-            "url": "mock.site.localhost",
+            "url": "http://mock.site.localhost",
             "auth": ("mock_user", "mock_pass")
         }
 
@@ -63,11 +63,18 @@ class Test_nodesolver(unittest.TestCase):
 
         result: dict = {
             "test_default": [ {
-                "url": "mock.site.localhost/dummy",
+                "url": "http://mock.site.localhost/dummy",
                 "auth": ("mock_user", "mock_pass"),
                 "method": "GET"
-            } ]
+            },
+            {
+                "url": "http://mock.site.localhost/dummy_2",
+                "auth": ("mock_user", "mock_pass"),
+                "method": "GET"
+            }]
         }
 
         self.assertIsInstance(__inject_basic_info__(__metadata__(YAML), __get_requests__(YAML)), dict, "The method must return 'dict' instance")
         self.assertEqual(__inject_basic_info__(__metadata__(YAML), __get_requests__(YAML)), result, "The method must return the espect content.")
+
+    
