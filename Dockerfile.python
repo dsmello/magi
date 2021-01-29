@@ -1,0 +1,26 @@
+FROM python:3.9-slim as test
+ARG BUILDFORDER=/tmp/app
+ARG APP=magi
+COPY . ${BUILDFORDER}/${APP}/
+WORKDIR ${BUILDFORDER}/${APP}
+RUN pwd \
+    &&  ls -lha .\
+    &&  pip install -r requirements.txt\
+    &&  pip install -r requirements-dev.txt\
+    &&  pip install .\ 
+    &&  pytest
+
+FROM python:3.9-slim
+ARG BUILDFORDER=/tmp/app
+ARG APP=magi
+COPY . ${BUILDFORDER}/${APP}/
+WORKDIR ${BUILDFORDER}/${APP}
+# Default System configs
+RUN     pip install -r requirements.txt\
+    &&  pip install .\
+    &&  addgroup --gid 1000 -system devops\
+    &&  adduser  --uid 1000 --gid 1000 --disabled-password -q --system devops\
+    &&  rm -fR ${BUILDFORDER}/${APP}
+
+USER 1000:1000 
+WORKDIR /home/devops/
